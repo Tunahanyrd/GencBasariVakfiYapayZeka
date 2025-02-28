@@ -21,7 +21,7 @@ def fetch_news(query="latest", from_date=None, to_date=None):
         data = response.json()
         return data.get("articles", [])
     else:
-        print("Haberler alınamadı. Hata kodu:", response.status_code)
+        print("haberler alınamadı:", response.status_code)
         return []
 
 #crud yapacağımız liste
@@ -30,7 +30,7 @@ news_data_store = []
 def create_news_item(item):
 #haberi listeye atma
     news_data_store.append(item)
-    print("Haber öğesi oluşturuldu.")
+    print("haber oluşturuldu.")
 
 def read_news_items():
 #haberlerin döndürülmesi
@@ -40,18 +40,18 @@ def update_news_item(index, updated_item):
 #belirtilen indextegi haberi güncelleme
     if 0 <= index < len(news_data_store):
         news_data_store[index] = updated_item
-        print("Haber öğesi güncellendi.")
+        print("haber güncellendi.")
     else:
-        print("Belirtilen index geçersiz.")
+        print("belirtilen index geçersiz.")
 
 def delete_news_item(index):
 #belirtilen haberi silme
     if 0 <= index < len(news_data_store):
         removed = news_data_store.pop(index)
-        print("Haber öğesi silindi.")
+        print("haber silindi.")
         return removed
     else:
-        print("Belirtilen index geçersiz.")
+        print("belirtilen index geçersiz.")
         return None
 
 def search_news_by_period(period="daily", query="latest"):
@@ -64,7 +64,7 @@ def search_news_by_period(period="daily", query="latest"):
     elif period == "monthly":
         from_date = (now - datetime.timedelta(days=30)).strftime("%Y-%m-%d")
     else:
-        print("Geçersiz periyot seçildi. 'daily', 'weekly' veya 'monthly' kullanabilirsiniz.")
+        print("Geçersiz zaman. 'daily', 'weekly' veya 'monthly' seçinicz.")
         return []
 
     to_date = now.strftime("%Y-%m-%d")
@@ -72,19 +72,19 @@ def search_news_by_period(period="daily", query="latest"):
     return articles
 
 if __name__ == "__main__":
-    # Örnek kullanım:
+    #test amaçlı kullanım
 
     # 1. Günlük haberleri arama
     daily_news = search_news_by_period("daily", "technology")
-    print(f"Günlük {len(daily_news)} adet haber çekildi.")
+    print(f"günlük {len(daily_news)} adet haber çekildi.")
 
-    # 2. İlk haber öğesini yerel veri listesine ekleme (create)
+    # 2. ilk haber öğesini yerel veri listesine ekleme (create)
     if daily_news:
         create_news_item(daily_news[0])
 
     # 3. Veri deposundaki haberleri okuma (read)
     items = read_news_items()
-    print("Veri deposundaki haber öğeleri:")
+    print("mevcut haber öğeleri:")
     for idx, item in enumerate(items):
         print(f"{idx}: {item.get('title')}")
 
